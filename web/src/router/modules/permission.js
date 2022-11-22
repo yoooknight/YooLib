@@ -8,8 +8,8 @@ const permissionRouter = {
   redirect: '/permission/manager',
   name: 'Permission',
   meta: {
-    title: '权限管理',
-    icon: 'table'
+    title: '权限管理'
+    // icon: 'table'
   },
   children: [
     {
