@@ -1,0 +1,27 @@
+type PermissionAddReq {
+	ParentID int64 `form:"parent_id"` // 父级ID
+	Name string `form:"name" validate:"required,max=32" message:"请输入标题,标题不得超过32个字符"` // 权限标题
+	ServerRouter string `form:"server_router" validate:"max=64" message:"路由不得超过64个字符"` // 后端路由
+	WebRouter string `form:"web_router" validate:"max=64" message:"路由不得超过64个字符"` // 前端路由
+	RequestMethod string `form:"request_method" validate:"required,max=10" message:"请选择请求方式,请求方式不得超过10个字符"` // 请求方式 get post
+	Status int64 `form:"status" validate:"oneof=1 2" message:"状态参数格式错误"` // 状态 1启用 2禁用
+}
+
+type PermissionList {
+	ID int
+	ParentID      int64  `json:"parent_id"`                       //父级ID
+	Name          string `json:"name"`                            //标题
+	WebRouter     string `json:"web_router"`                      //前端路由
+	ServerRouter  string `json:"server_router"`                   //服务端路由
+	RequestMethod string `json:"request_method"`                  //请求方式 get post put delete
+	Status        int64  `json:"status"`                          //状态 1启用 2禁用
+	DeleteDate    string `json:"delete_date" gorm:"default:NULL"` //删除时间
+}
+
+service auth-api {
+	@doc(
+		summary : "权限添加"
+	)
+	@handler PermissionAddHandler
+	post /auth/permission/add returns (Resp)
+}

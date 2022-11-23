@@ -1,12 +1,11 @@
 package main
 
 import (
+	"app/auth/api/internal/config"
+	"app/auth/api/internal/handler"
+	"app/auth/api/internal/svc"
 	"flag"
 	"fmt"
-
-	"app/auth/internal/config"
-	"app/auth/internal/handler"
-	"app/auth/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"

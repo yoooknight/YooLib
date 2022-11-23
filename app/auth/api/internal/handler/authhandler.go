@@ -1,24 +1,25 @@
 package handler
 
 import (
+	"app/auth/api/internal/logic"
+	"app/auth/api/internal/svc"
+	"app/auth/api/internal/types"
 	"net/http"
 
-	"app/auth/internal/logic"
-	"app/auth/internal/svc"
-	"app/auth/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func AuthHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func PermissionListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.Request
+		var req types.PermissionListReq
+		var resp types.PermissionListResp
+
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.Error(w, err)
 			return
 		}
 
-		l := logic.NewAuthLogic(r.Context(), svcCtx)
-		resp, err := l.Auth(&req)
+		resp, err := logic.NewPermissionLogic(r.Context(), svcCtx).List()
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

@@ -1,0 +1,21 @@
+Name: auth-api
+Host: 0.0.0.0
+Port: 8888
+
+Mysql:
+  Username: root
+  Password: mysql
+  Host: 127.0.0.1
+  Port: "3308"
+  Database: "yoolib"
+  Charset: "utf8mb4"
+  ParseTime: "false"
+  Loc: "Local"
+  TablePrefix: ""
+  SingularTable: true
+  PrepareStmt: true
+  ConnMaxLifetime: 300
+  MaxIdleConn: 30
+  ConnMaxIdleTime: 200
+  MaxOpenConn: 300
+  IgnoreRecordNotFoundError: false
