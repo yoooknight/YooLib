@@ -19,3 +19,7 @@ Mysql:
   ConnMaxIdleTime: 200
   MaxOpenConn: 300
   IgnoreRecordNotFoundError: false
+
+Auth:
+  AccessSecret: sdg6a783dfb
+  AccessExpire: 86400

@@ -6,9 +6,9 @@ type (
 	PermissionListReq struct{}
 
 	PermissionListResp struct {
-		PermissionInfo models.Permission
-		IsHasChild     bool `json:"is_has_child"`
-		Children       []PermissionListResp
+		models.Permission
+		HasChildren bool                 `json:"has_children"`
+		Children    []PermissionListResp `json:"children"`
 	}
 
 	PermissionAddReq struct {

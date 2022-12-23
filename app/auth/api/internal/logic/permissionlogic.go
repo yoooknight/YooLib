@@ -45,9 +45,9 @@ func (l *PermissionLogic) getChildForMenu(menuId int64) (resp []types.Permission
 			tempChildren, tempIsHasChildren, err := l.getChildForMenu(v.ID)
 			if err == nil {
 				resp = append(resp, types.PermissionListResp{
-					PermissionInfo: v,
-					IsHasChild:     tempIsHasChildren,
-					Children:       tempChildren,
+					Permission:  v,
+					HasChildren: tempIsHasChildren,
+					Children:    tempChildren,
 				})
 			}
 		}

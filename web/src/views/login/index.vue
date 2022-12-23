@@ -12,7 +12,7 @@
         </span>
         <el-input
           ref="username"
-          v-model="loginForm.username"
+          v-model="loginForm.user_name"
           placeholder="Username"
           name="username"
           type="text"
@@ -97,11 +97,11 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
+        user_name: 'admin',
         password: '111111'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        user_name: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
@@ -128,7 +128,8 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    if (this.loginForm.username === '') {
+    if (this.loginForm.user_name === '') {
+      console.log('33333333333')
       this.$refs.username.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
@@ -154,14 +155,18 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
+        // console.log(this.$refs.loginForm.user_name)
         if (valid) {
+          console.log(this.loginForm)
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
+              console.log('44444444444444444444')
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })
-            .catch(() => {
+            .catch((err) => {
+              console.log(err)
               this.loading = false
             })
         } else {

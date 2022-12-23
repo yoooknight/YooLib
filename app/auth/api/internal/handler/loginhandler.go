@@ -5,17 +5,15 @@ import (
 	"app/auth/api/internal/svc"
 	"app/auth/api/internal/types"
 	"app/tools/response"
-	"net/http"
-
 	"github.com/zeromicro/go-zero/rest/httpx"
+	"net/http"
 )
 
-// PermissionListHandler 权限列表控制器
-func PermissionListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func LoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var (
-			req  types.PermissionListReq
-			resp []types.PermissionListResp
+			req  types.LoginReq
+			resp *types.LoginResp
 			err  error
 		)
 
@@ -24,8 +22,8 @@ func PermissionListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		if resp, err = logic.NewPermissionLogic(r.Context(), svcCtx).List(); err != nil {
-			response.Json(w, err.Error(), response.Fail)
+		if resp, err = logic.NewLoginLogic(r.Context(), svcCtx).Login(req); err != nil {
+			response.Json(w, err.Error(), response.InvalidParams)
 			return
 		}
 
