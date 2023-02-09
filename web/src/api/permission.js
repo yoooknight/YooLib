@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function list() {
+export function list(token) {
   console.log('11111111111')
   return request({
     url: '/permission/list',

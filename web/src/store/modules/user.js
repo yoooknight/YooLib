@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -7,7 +7,8 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  menu: []
 }
 
 const mutations = {
@@ -25,6 +26,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_MENU: (state, menu) => {
+    state.menu = menu
   }
 }
 
@@ -35,8 +39,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ user_name: user_name.trim(), password: password }).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        commit('SET_TOKEN', data.Token)
+        setToken(data.Token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -47,54 +51,64 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
+      // 获取用户信息
       getInfo(state.token).then(response => {
         const { data } = response
-
         if (!data) {
           reject('Verification failed, please Login again.')
         }
+
+        // if (!data.roles || data.roles.length <= 0) {
+        //   reject('getInfo: roles must be a non-null array!')
+        // }
 
         const dataNew = {
           roles: ['root'],
           introduction: 'I am a super administrator',
           avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-          name: data['username']
-        }
-        const { roles, name, avatar, introduction } = dataNew
-        // const { name } = data
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
+          name: data['user_name'],
+          menu: data['menu']
         }
 
+        const { roles, name, avatar, introduction, menu } = dataNew
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
+        commit('SET_MENU', menu)
+        console.log(dataNew)
         resolve(dataNew)
       }).catch(error => {
         reject(error)
       })
+
+      // // 获取菜单权限列表
+      // list(state.token).then(response => {
+      //   const { data } = response
+      //   console.log(data)
+      //   if (!data) {
+      //     reject('Verification failed, please Login again.')
+      //   }
+      //   // dataNew.menu = data
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
 
   // user logout
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
+      commit('SET_TOKEN', '')
+      commit('SET_MENU', [])
+      removeToken()
+      resetRouter()
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, { root: true })
+      // reset visited views and cached views
+      // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+      dispatch('tagsView/delAllViews', null, { root: true })
 
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      resolve()
     })
   },
 

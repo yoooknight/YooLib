@@ -4,7 +4,6 @@ package handler
 import (
 	"app/auth/api/internal/svc"
 	"net/http"
-
 	"github.com/zeromicro/go-zero/rest"
 )
 
@@ -12,20 +11,34 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodGet,
-				Path:    "/auth/permission/list",
-				Handler: PermissionListHandler(serverCtx),
-			},
-			{
 				Method:  http.MethodPost,
 				Path:    "/auth/user/login",
 				Handler: LoginHandler(serverCtx),
 			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/auth/user/info",
-				Handler: UserInfoHandler(serverCtx),
-			},
+			//{
+			//	Method:  http.MethodGet,
+			//	Path:    "/auth/user/info",
+			//	Handler: UserInfoHandler(serverCtx),
+			//},
 		},
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.AuthMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/auth/permission/list",
+					Handler: PermissionListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/auth/user/info",
+					Handler: UserInfoHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 	)
 }

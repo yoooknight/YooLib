@@ -23,3 +23,7 @@ Mysql:
 Auth:
   AccessSecret: sdg6a783dfb
   AccessExpire: 86400
+
+SuperManager:
+  Username: root
+  Password: root

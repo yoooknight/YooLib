@@ -8,7 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 // import tableRouter from './modules/table'
-import permissionRouter from './modules/permission'
+// import permissionRouter from './modules/permission'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -71,14 +71,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/permission'
-    // children: [
-    //   {
-    //     path: 'manager',
-    //     component: () => import('@/views/permission/manager'),
-    //     name: 'manager'
-    //   }
-    // ]
+    redirect: '/permission/menu'
   }
 ]
 
@@ -86,9 +79,7 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [
-  permissionRouter
-]
+export const asyncRoutes = []
 
 const createRouter = () => new Router({
   mode: 'history', // require service support
@@ -96,9 +87,14 @@ const createRouter = () => new Router({
   routes: constantRoutes
 })
 
-const router = createRouter()
+// const router = new VueRouter({
+//   mode: 'history',
+//   base: process.env.BASE_URL,
+//   routes: constantRoutes
+// })
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+const router = createRouter()
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
