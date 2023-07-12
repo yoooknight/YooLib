@@ -1,6 +1,12 @@
-Name: auth-api
+Name: book-api
 Host: 0.0.0.0
-Port: 8888
+Port: 8890
+
+AuthRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
 
 Mysql:
   Username: root
@@ -19,11 +25,3 @@ Mysql:
   ConnMaxIdleTime: 200
   MaxOpenConn: 300
   IgnoreRecordNotFoundError: false
-
-Auth:
-  AccessSecret: sdg6a783dfb
-  AccessExpire: 86400
-
-SuperManager:
-  Username: root
-  Password: root

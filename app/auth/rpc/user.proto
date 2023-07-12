@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package pb;
+option go_package = "./pb";
+
+message UpdateAuthByRoleIDReq {
+  string roleID = 1;
+}
+
+message Resp {
+  bool status = 1;
+}
+
+message CheckAuthReq {
+  string UID = 1;
+  string URL = 2;
+  string Method = 3;
+}
+
+message Empty {}
+
+service AuthRPC {
+  rpc UpdateAuthByRoleID(UpdateAuthByRoleIDReq) returns(Resp);
+
+  rpc UpdateAllAuth(Empty)returns (Resp);
+
+  rpc CheckAuth(CheckAuthReq) returns (Resp);
+}
